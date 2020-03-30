@@ -19,11 +19,12 @@ export class DropboxController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadVideo(@UploadedFile() file) {
+  async uploadVideo(@UploadedFile() file) {
     console.log(file);
     this.dropboxService.uploadFile({
       name: file.originalname,
       data: file.buffer,
     });
+    return 'Uploading...';
   }
 }
