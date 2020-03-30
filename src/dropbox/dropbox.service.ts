@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Dropbox } from 'dropbox';
 import { config } from 'dotenv';
 import { FileData } from 'src/file-data.interface';
-import e = require('express');
 const fetch = require('isomorphic-fetch');
 
 const BIG_FILE = 157286400;
