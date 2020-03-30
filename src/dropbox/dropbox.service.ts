@@ -39,20 +39,20 @@ export class DropboxService {
         offset += chunkSize;
       }
 
-      let hello = await this.dbx.filesUploadSessionStart({
+      console.log('Starting Upload...');
+      let startResponse = await this.dbx.filesUploadSessionStart({
         contents: workItems[0],
       });
 
-      for (let index = 0; index < workItems.length; index++) {
-        if (index == 0) console.log('First');
-        else if (index < workItems.length - 1) {
+      for (let index = 1; index < workItems.length; index++) {
+        if (index < workItems.length - 1) {
           console.log(`Uploading item number: ${index + 1}`);
           await this.dbx
             .filesUploadSessionAppendV2({
               contents: workItems[index],
               // @ts-ignore
               cursor: {
-                session_id: hello.session_id,
+                session_id: startResponse.session_id,
                 offset: index * maxBlob,
               },
             })
@@ -69,7 +69,7 @@ export class DropboxService {
               contents: workItems[index],
               // @ts-ignore
               cursor: {
-                session_id: hello.session_id,
+                session_id: startResponse.session_id,
                 offset: file.data.byteLength - workItems[index].byteLength,
               },
             })
