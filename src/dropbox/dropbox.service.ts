@@ -51,6 +51,7 @@ export class DropboxService {
           await this.dbx
             .filesUploadSessionAppendV2({
               contents: workItems[index],
+              // @ts-ignore
               cursor: {
                 session_id: hello.session_id,
                 offset: index * maxBlob,
@@ -61,11 +62,13 @@ export class DropboxService {
           console.log('Uploading Last Item....');
           await this.dbx
             .filesUploadSessionFinish({
+              // @ts-ignore
               commit: {
                 path: '/' + file.name,
                 autorename: true,
               },
               contents: workItems[index],
+              // @ts-ignore
               cursor: {
                 session_id: hello.session_id,
                 offset: file.data.byteLength - workItems[index].byteLength,
