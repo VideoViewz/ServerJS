@@ -5,6 +5,7 @@ import { FileData } from 'src/file-data.interface';
 const fetch = require('isomorphic-fetch');
 
 const BIG_FILE = 157286400;
+const MAX_BLOB = 8 * 1000 * 1000;
 
 config(); // load data from .env
 
@@ -14,6 +15,23 @@ export class DropboxService {
     accessToken: process.env.ACCESS_TOKEN,
     fetch,
   });
+
+  /**
+   * split up a file into chuncks
+   * @param file split it up to chunks
+   */
+  chunckMaker(file: FileData): Buffer[] {
+    let offset = 0;
+    const workItems = Array<Buffer>();
+
+    while (offset < file.data.byteLength) {
+      let chunkSize = Math.min(MAX_BLOB, file.data.byteLength - offset);
+      workItems.push(file.data.slice(offset, offset + chunkSize));
+      offset += chunkSize;
+    }
+
+    return workItems;
+  }
 
   findAllUsers() {
     return this.dbx
@@ -29,15 +47,7 @@ export class DropboxService {
   async uploadFile(file: FileData) {
     console.log(file.data.byteLength);
     if (file.data.byteLength >= BIG_FILE) {
-      const maxBlob = 8 * 1000 * 1000;
-      let offset = 0;
-      let workItems = Array<Buffer>();
-
-      while (offset < file.data.byteLength) {
-        let chunkSize = Math.min(maxBlob, file.data.byteLength - offset);
-        workItems.push(file.data.slice(offset, offset + chunkSize));
-        offset += chunkSize;
-      }
+      const workItems = this.chunckMaker(file);
 
       console.log('Starting Upload...');
       let startResponse = await this.dbx.filesUploadSessionStart({
@@ -53,7 +63,7 @@ export class DropboxService {
               // @ts-ignore
               cursor: {
                 session_id: startResponse.session_id,
-                offset: index * maxBlob,
+                offset: index * MAX_BLOB,
               },
             })
             .catch(console.log);
@@ -77,10 +87,11 @@ export class DropboxService {
         }
       }
     } else {
-      this.dbx
+      return this.dbx
         .filesUpload({ path: '/' + file.name, contents: file.data })
         .then(response => {
           console.log(response);
+          return response;
         });
     }
   }

@@ -2,6 +2,7 @@ image: node:latest
 
 stages:
   - build
+  - test
 
 cache:
   paths:
@@ -16,3 +17,8 @@ build:
     paths:
       - node_modules/
       - dist/
+
+test:
+  stage: test
+  script:
+    - npm run test
