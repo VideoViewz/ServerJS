@@ -11,7 +11,6 @@ config();
 
 @Module({
   imports: [
-    VideoModule,
     MongooseModule.forRoot(
       `mongodb+srv://Shucki:${process.env.MONGO_PASS}@videoviewzcluster0-tkxqx.mongodb.net/test?retryWrites=true&w=majority`,
       { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'videoViewz' },
@@ -19,5 +18,6 @@ config();
   ],
   controllers: [AppController, DropboxController],
   providers: [AppService, DropboxService],
+  exports: [DropboxService],
 })
 export class AppModule {}
