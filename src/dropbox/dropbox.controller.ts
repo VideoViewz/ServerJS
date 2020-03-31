@@ -4,6 +4,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DropboxService } from './dropbox.service';
@@ -12,10 +13,10 @@ import { DropboxService } from './dropbox.service';
 export class DropboxController {
   constructor(private readonly dropboxService: DropboxService) {}
 
-  @Get()
-  getUsers() {
-    return this.dropboxService.findAllUsers();
-  }
+  // @Get()
+  // getUsers() {
+  //   return this.dropboxService.findAllUsers();
+  // }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -26,5 +27,11 @@ export class DropboxController {
       data: file.buffer,
     });
     return 'Uploading...';
+  }
+
+  @Get('retrieve')
+  async getVideo(@Query('video') video) {
+    const videoLink = await this.dropboxService.getVideo(video);
+    return videoLink;
   }
 }

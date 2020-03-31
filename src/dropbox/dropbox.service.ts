@@ -33,16 +33,16 @@ export class DropboxService {
     return workItems;
   }
 
-  findAllUsers() {
-    return this.dbx
-      .usersGetCurrentAccount()
-      .then(function(response) {
-        return response;
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-  }
+  // findAllUsers() {
+  //   return this.dbx
+  //     .usersGetCurrentAccount()
+  //     .then(function(response) {
+  //       return response;
+  //     })
+  //     .catch(function(error) {
+  //       console.error(error);
+  //     });
+  // }
 
   async uploadFile(file: FileData) {
     console.log(file.data.byteLength);
@@ -94,5 +94,16 @@ export class DropboxService {
           return response;
         });
     }
+  }
+
+  /**
+   * return a link to download the requested video
+   * @param path path to the requested video
+   */
+  async getVideo(path: string): Promise<string> {
+    const linkResult = await this.dbx.filesGetTemporaryLink({
+      path: '/' + path,
+    });
+    return linkResult.link;
   }
 }
