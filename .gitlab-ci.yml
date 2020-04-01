@@ -1,5 +1,3 @@
-image: node:latest
-
 stages:
   - build
   - test
@@ -10,6 +8,7 @@ cache:
     - node_modules/
 
 build:
+  image: node:latest
   stage: build
   script:
     - npm install
@@ -20,6 +19,7 @@ build:
       - dist/
 
 test:
+  image: node:latest
   stage: test
   script:
     - npm run test
@@ -29,7 +29,7 @@ deploy_staging:
   stage: deploy
   script:
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/videoviewz-staging.git
-    - git push heroku HEAD:master
+    - git push heroku HEAD:refs/heads/master
   environment:
     name: staging
   only:
