@@ -33,4 +33,4 @@ deploy_staging:
   environment:
     name: staging
   only:
-    - heroku-deploy
+    - master
