@@ -115,6 +115,7 @@ export class DropboxService {
     const linkResult = await this.dbx.sharingCreateSharedLink({
       path: '/' + path,
     });
-    return linkResult.url;
+    const newLink = linkResult.url.split('?');
+    return `${newLink[0]}?raw=0`;
   }
 }
