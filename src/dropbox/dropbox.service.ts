@@ -100,10 +100,22 @@ export class DropboxService {
    * return a link to download the requested video
    * @param path path to the requested video
    */
-  async getVideo(path: string): Promise<string> {
+  async getVideoDownload(path: string): Promise<string> {
     const linkResult = await this.dbx.filesGetTemporaryLink({
       path: '/' + path,
     });
     return linkResult.link;
+  }
+
+  /**
+   * return a link to embed the requested video
+   * @param path path to the requested video
+   */
+  async getVideo(path: string): Promise<string> {
+    const linkResult = await this.dbx.sharingCreateSharedLink({
+      path: '/' + path,
+    });
+    const newLink = linkResult.url.split('?');
+    return `${newLink[0]}?raw=0`;
   }
 }
