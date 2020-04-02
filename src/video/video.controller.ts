@@ -8,10 +8,6 @@ export class VideoController {
 
   @Post('upload')
   async uploadVideo(@Body() createVideoDto: CreateVideoDto) {
-    // this.dropboxService.uploadFile({
-    //   name: createVideoDto.name,
-    //   data: file.buffer,
-    // });
     console.log(createVideoDto);
     const res = await this.videoService.create(createVideoDto);
     return res;
@@ -28,7 +24,6 @@ export class VideoController {
   ): Promise<string> {
     const videoInfo = await this.videoService.find(course, videoName);
     return videoInfo.url;
-    // return await this.dropboxService.getVideo(videoInfo.name);
   }
 
   /**
