@@ -12,6 +12,7 @@ export class VideoService {
    * @param createVideoDto video info
    */
   async create(createVideoDto: CreateVideoDto): Promise<Video> {
+    createVideoDto = this.analyzeURL(createVideoDto);
     const createdVideo = new this.videoModel(createVideoDto);
     return createdVideo.save();
   }
@@ -41,5 +42,21 @@ export class VideoService {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  /**
+   * Check if the video string is embedable (for youtube videos)
+   * @param createVideoDto the video info to upload
+   */
+  analyzeURL(createVideoDto: CreateVideoDto) {
+    if (!createVideoDto.url.includes('/embed/')) {
+      const urlArr = createVideoDto.url.split('/watch?v=');
+      const newUrl = `${urlArr[0]}/embed/${urlArr[1]}`;
+      createVideoDto = {
+        ...createVideoDto,
+        url: newUrl,
+      };
+    }
+    return createVideoDto;
   }
 }
