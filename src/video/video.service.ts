@@ -30,4 +30,16 @@ export class VideoService {
       console.log(e);
     }
   }
+
+  /**
+   * Find all videos for a specific course
+   * @param course course name
+   */
+  async findAll(course: string) {
+    try {
+      return await this.videoModel.find({ course: course }).exec();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

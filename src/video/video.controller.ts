@@ -12,6 +12,7 @@ export class VideoController {
     //   name: createVideoDto.name,
     //   data: file.buffer,
     // });
+    console.log(createVideoDto);
     const res = await this.videoService.create(createVideoDto);
     return res;
   }
@@ -28,5 +29,15 @@ export class VideoController {
     const videoInfo = await this.videoService.find(course, videoName);
     return videoInfo.url;
     // return await this.dropboxService.getVideo(videoInfo.name);
+  }
+
+  /**
+   * Return all course videos
+   * @param course course name
+   */
+  @Get(':course')
+  async getAllCourseVideos(@Param('course') course): Promise<string[]> {
+    const videos = await this.videoService.findAll(course);
+    return videos.map(video => video.url);
   }
 }
