@@ -1,34 +1,14 @@
-import {
-  Controller,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-  Body,
-  Get,
-  Param,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { VideoService } from './video.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateVideoDto } from './interfaces/video.interface';
-import { DropboxService } from '../dropbox/dropbox.service';
 
 @Controller('video')
 export class VideoController {
-  constructor(
-    private readonly videoService: VideoService,
-    private readonly dropboxService: DropboxService,
-  ) {}
+  constructor(private readonly videoService: VideoService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadVideo(
-    @UploadedFile() file,
-    @Body() createVideoDto: CreateVideoDto,
-  ) {
-    this.dropboxService.uploadFile({
-      name: createVideoDto.name,
-      data: file.buffer,
-    });
+  async uploadVideo(@Body() createVideoDto: CreateVideoDto) {
+    console.log(createVideoDto);
     const res = await this.videoService.create(createVideoDto);
     return res;
   }
@@ -37,9 +17,22 @@ export class VideoController {
    * Return a URL to the video
    * @param name video name
    */
-  @Get(':name')
-  async getVideo(@Param('name') name): Promise<string> {
-    const videoInfo = await this.videoService.find(name);
-    return await this.dropboxService.getVideo(videoInfo.name);
+  @Get(':course/:videoName')
+  async getVideo(
+    @Param('course') course,
+    @Param('videoName') videoName,
+  ): Promise<string> {
+    const videoInfo = await this.videoService.find(course, videoName);
+    return videoInfo.url;
+  }
+
+  /**
+   * Return all course videos
+   * @param course course name
+   */
+  @Get(':course')
+  async getAllCourseVideos(@Param('course') course): Promise<string[]> {
+    const videos = await this.videoService.findAll(course);
+    return videos.map(video => video.url);
   }
 }
