@@ -20,9 +20,12 @@ export class VideoController {
    * Return a URL to the video
    * @param name video name
    */
-  @Get(':name')
-  async getVideo(@Param('name') name): Promise<string> {
-    const videoInfo = await this.videoService.find(name);
+  @Get(':course/:videoName')
+  async getVideo(
+    @Param('course') course,
+    @Param('videoName') videoName,
+  ): Promise<string> {
+    const videoInfo = await this.videoService.find(course, videoName);
     return videoInfo.url;
     // return await this.dropboxService.getVideo(videoInfo.name);
   }

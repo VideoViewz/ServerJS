@@ -18,11 +18,14 @@ export class VideoService {
 
   /**
    *
+   * @param course course name
    * @param videoName retrieve a video info
    */
-  async find(videoName: string): Promise<Video> {
+  async find(course: string, videoName: string): Promise<Video> {
     try {
-      return await this.videoModel.findOne({ name: videoName }).exec();
+      return await this.videoModel
+        .findOne({ name: videoName, course: course })
+        .exec();
     } catch (e) {
       console.log(e);
     }
