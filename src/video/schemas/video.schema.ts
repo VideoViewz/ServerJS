@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose';
 
 export const VideoSchema = new mongoose.Schema({
-  name: String,
-  user: String,
+  url: String,
+  videoName: String,
+  uploader: String,
   course: String,
 });
