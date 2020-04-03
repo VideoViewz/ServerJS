@@ -10,7 +10,8 @@ export class CourseService {
   constructor(@InjectModel('Course') private courseModel: Model<Course>) {}
 
   async addCourse(course: CourseDto): Promise<Course | { error: string }> {
-    const newCourse = new this.courseModel(course);
+    const courseUpper = this.courseToUpper(course);
+    const newCourse = new this.courseModel(courseUpper);
     try {
       return await newCourse.save();
     } catch (e) {
@@ -28,5 +29,12 @@ export class CourseService {
 
   async getAllCourses(): Promise<Course[]> {
     return this.courseModel.find({});
+  }
+
+  courseToUpper(course: CourseDto): CourseDto {
+    const courseUpper: CourseDto = {
+      name: course.name[0].toUpperCase() + course.name.slice(1).toLowerCase(),
+    };
+    return courseUpper;
   }
 }
