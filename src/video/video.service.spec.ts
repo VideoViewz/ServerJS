@@ -1,13 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { VideoService } from './video.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { CreateVideoDto } from './interfaces/video.interface';
+import { CreateVideoDto, Video } from './interfaces/video.interface';
+
+const VIDEO: CreateVideoDto = {
+  url: 'https://www.youtube.com/watch?v=T8r3cWM4JII',
+  videoName: 'vid1',
+  uploader: 'shucki',
+  course: 'math',
+};
+const VIDEO_EMBEDED: CreateVideoDto = {
+  url: 'https://www.youtube.com/embed/T8r3cWM4JII',
+  videoName: 'vid1',
+  uploader: 'shucki',
+  course: 'math',
+};
 
 describe('VideoService', () => {
   let service: VideoService;
 
   beforeEach(async () => {
-    function videoModel(dto: any) {
+    function videoModel(dto: Video) {
       this.data = dto;
       this.save = () => {
         return this.data;
@@ -32,27 +45,14 @@ describe('VideoService', () => {
   });
 
   it('should return an emdedable youtube video link', () => {
-    const video: CreateVideoDto = {
-      url: 'https://www.youtube.com/watch?v=T8r3cWM4JII',
-      videoName: 'vid1',
-      uploader: 'shucki',
-      course: 'math',
-    };
-    expect(service.analyzeURL(video)).toEqual({
-      url: 'https://www.youtube.com/embed/T8r3cWM4JII',
-      videoName: 'vid1',
-      uploader: 'shucki',
-      course: 'math',
-    });
+    expect(service.analyzeURL(VIDEO)).toEqual(VIDEO_EMBEDED);
   });
 
   it('should not alter the video link', () => {
-    const video: CreateVideoDto = {
-      url: 'https://www.youtube.com/embed/T8r3cWM4JII',
-      videoName: 'vid1',
-      uploader: 'shucki',
-      course: 'math',
-    };
-    expect(service.analyzeURL(video)).toEqual(video);
+    expect(service.analyzeURL(VIDEO_EMBEDED)).toEqual(VIDEO_EMBEDED);
+  });
+
+  it('should create a new video entry in db', async () => {
+    expect(await service.create(VIDEO)).toEqual(VIDEO_EMBEDED);
   });
 });

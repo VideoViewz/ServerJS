@@ -16,6 +16,7 @@ config();
         useNewUrlParser: true,
         useUnifiedTopology: true,
         dbName: process.env.DB,
+        useCreateIndex: true,
       },
     ),
   ],

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { MongoError } from 'mongodb';
 import { Video, CreateVideoDto } from './interfaces/video.interface';
 
 @Injectable()
@@ -11,10 +12,24 @@ export class VideoService {
    * Create a new video entry in db
    * @param createVideoDto video info
    */
-  async create(createVideoDto: CreateVideoDto): Promise<Video> {
-    createVideoDto = this.analyzeURL(createVideoDto);
-    const createdVideo = new this.videoModel(createVideoDto);
-    return createdVideo.save();
+  async create(
+    createVideoDto: CreateVideoDto,
+  ): Promise<Video | { error: string }> {
+    try {
+      createVideoDto = this.analyzeURL(createVideoDto);
+      const createdVideo = new this.videoModel(createVideoDto);
+      return await createdVideo.save();
+    } catch (e) {
+      const error = <MongoError>e;
+      if (error.errmsg.startsWith('E11000 duplicate key error collection:')) {
+        return {
+          error: 'Video already exists',
+        };
+      }
+      return {
+        error: 'An Error ocurred',
+      };
+    }
   }
 
   /**
