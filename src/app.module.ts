@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { VideoModule } from './video/video.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { config } from 'dotenv';
+import { CourseModule } from './course/course.module';
 
 config();
 
@@ -19,6 +20,7 @@ config();
         useCreateIndex: true,
       },
     ),
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
