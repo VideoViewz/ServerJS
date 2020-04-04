@@ -5,6 +5,7 @@ import { VideoModule } from './video/video.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { config } from 'dotenv';
 import { CourseModule } from './course/course.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 config();
 
@@ -20,6 +21,16 @@ config();
         useCreateIndex: true,
       },
     ),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      url: process.env.DATABASE_URL,
+      synchronize: true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
+    }),
+
     CourseModule,
   ],
   controllers: [AppController],

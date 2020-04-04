@@ -16,7 +16,7 @@ build:
   artifacts:
     paths:
       - node_modules/
-      - dist/
+      # - dist/
 
 test:
   image: node:latest
