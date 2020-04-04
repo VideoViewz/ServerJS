@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './interfaces/video.interface';
+import { ApiParam } from '@nestjs/swagger';
 
 @Controller('video')
 export class VideoController {
@@ -31,6 +32,7 @@ export class VideoController {
    * @param course course name
    */
   @Get(':course')
+  @ApiParam({ name: 'course' })
   async getAllCourseVideos(@Param('course') course): Promise<string[]> {
     const videos = await this.videoService.findAll(course);
     return videos.map(video => video.url);
