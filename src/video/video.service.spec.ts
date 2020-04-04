@@ -16,6 +16,13 @@ const VIDEO_EMBEDED: CreateVideoDto = {
   course: 'math',
 };
 
+const VIDEO_EMBEDED_UPPER: CreateVideoDto = {
+  url: 'https://www.youtube.com/embed/T8r3cWM4JII',
+  videoName: 'vid1',
+  uploader: 'shucki',
+  course: 'Math',
+};
+
 describe('VideoService', () => {
   let service: VideoService;
 
@@ -53,6 +60,6 @@ describe('VideoService', () => {
   });
 
   it('should create a new video entry in db', async () => {
-    expect(await service.create(VIDEO)).toEqual(VIDEO_EMBEDED);
+    expect(await service.create(VIDEO)).toEqual(VIDEO_EMBEDED_UPPER);
   });
 });

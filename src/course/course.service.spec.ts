@@ -22,10 +22,4 @@ describe('CourseService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  it('should upper case first letter and lower case the rest', () => {
-    expect(service.courseToUpper({ name: 'sHUCKI' }).name).toEqual('Shucki');
-    expect(service.courseToUpper({ name: 'math' }).name).toEqual('Math');
-    expect(service.courseToUpper({ name: 'Math' }).name).toEqual('Math');
-  });
 });

@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MongoError } from 'mongodb';
 import { Video, CreateVideoDto } from './interfaces/video.interface';
+import { courseToUpper } from '../helper-methods/helpers';
 
 @Injectable()
 export class VideoService {
@@ -16,6 +17,7 @@ export class VideoService {
     createVideoDto: CreateVideoDto,
   ): Promise<Video | { error: string }> {
     try {
+      createVideoDto.course = courseToUpper(createVideoDto.course);
       createVideoDto = this.analyzeURL(createVideoDto);
       const createdVideo = new this.videoModel(createVideoDto);
       return await createdVideo.save();

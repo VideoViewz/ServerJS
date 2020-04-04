@@ -11,5 +11,5 @@ export class CreateVideoDto {
   readonly url: string;
   readonly videoName: string;
   readonly uploader: string;
-  readonly course: string;
+  course: string;
 }

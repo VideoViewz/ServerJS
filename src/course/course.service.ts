@@ -4,14 +4,17 @@ import { Model } from 'mongoose';
 import { Course } from './interfaces/course.interface';
 import { CourseDto } from './dto/course.dto';
 import { MongoError } from 'mongodb';
+import { courseToUpper } from '../helper-methods/helpers';
 
 @Injectable()
 export class CourseService {
   constructor(@InjectModel('Course') private courseModel: Model<Course>) {}
 
   async addCourse(course: CourseDto): Promise<Course | { error: string }> {
-    const courseUpper = this.courseToUpper(course);
-    const newCourse = new this.courseModel(courseUpper);
+    // const courseUpper = this.courseToUpper(course);
+    course.name = courseToUpper(course.name);
+    // const newCourse = new this.courseModel(courseUpper);
+    const newCourse = new this.courseModel(course);
     try {
       return await newCourse.save();
     } catch (e) {
@@ -31,10 +34,10 @@ export class CourseService {
     return this.courseModel.find({});
   }
 
-  courseToUpper(course: CourseDto): CourseDto {
-    const courseUpper: CourseDto = {
-      name: course.name[0].toUpperCase() + course.name.slice(1).toLowerCase(),
-    };
-    return courseUpper;
-  }
+  // courseToUpper(course: CourseDto): CourseDto {
+  //   const courseUpper: CourseDto = {
+  //     name: course.name[0].toUpperCase() + course.name.slice(1).toLowerCase(),
+  //   };
+  //   return courseUpper;
+  // }
 }
