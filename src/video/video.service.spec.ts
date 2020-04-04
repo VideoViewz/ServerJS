@@ -16,6 +16,13 @@ const VIDEO_EMBEDED: CreateVideoDto = {
   course: 'math',
 };
 
+const MOBILE_LINK: CreateVideoDto = {
+  url: 'https://youtu.be/T8r3cWM4JII',
+  videoName: 'vid1',
+  uploader: 'shucki',
+  course: 'math',
+};
+
 describe('VideoService', () => {
   let service: VideoService;
 
@@ -50,6 +57,10 @@ describe('VideoService', () => {
 
   it('should not alter the video link', () => {
     expect(service.analyzeURL(VIDEO_EMBEDED)).toEqual(VIDEO_EMBEDED);
+  });
+
+  it('should return an embedable link from mobile', () => {
+    expect(service.analyzeURL(MOBILE_LINK)).toEqual(VIDEO_EMBEDED);
   });
 
   it('should create a new video entry in db', async () => {

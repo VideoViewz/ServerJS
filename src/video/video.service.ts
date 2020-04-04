@@ -65,8 +65,16 @@ export class VideoService {
    */
   analyzeURL(createVideoDto: CreateVideoDto) {
     if (!createVideoDto.url.includes('/embed/')) {
-      const urlArr = createVideoDto.url.split('/watch?v=');
-      const newUrl = `${urlArr[0]}/embed/${urlArr[1]}`;
+      let newUrl: string = '';
+      if (createVideoDto.url.includes('/watch?v=')) {
+        const urlArr = createVideoDto.url.split('/watch?v=');
+        newUrl = `${urlArr[0]}/embed/${urlArr[1]}`;
+      } else if (createVideoDto.url.startsWith('https://youtu.be/')) {
+        // mobile link
+        newUrl = `https://www.youtube.com/embed/${
+          createVideoDto.url.split('https://youtu.be/')[1]
+        }`;
+      }
       createVideoDto = {
         ...createVideoDto,
         url: newUrl,
