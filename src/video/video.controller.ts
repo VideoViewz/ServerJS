@@ -31,8 +31,12 @@ export class VideoController {
    * @param course course name
    */
   @Get(':course')
-  async getAllCourseVideos(@Param('course') course): Promise<string[]> {
+  async getAllCourseVideos(
+    @Param('course') course,
+  ): Promise<{ url: string; videoName: string }[]> {
     const videos = await this.videoService.findAll(course);
-    return videos.map(video => video.url);
+    return videos.map(video => {
+      return { url: video.url, videoName: video.videoName };
+    });
   }
 }
