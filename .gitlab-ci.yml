@@ -13,10 +13,10 @@ build:
   script:
     - npm install
     - npm run build
-  artifacts:
-    paths:
-      - node_modules/
-      - dist/
+  # artifacts:
+  #   paths:
+  #     - node_modules/
+  #     - dist/
 
 test:
   image: node:latest
