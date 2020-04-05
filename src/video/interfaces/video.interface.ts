@@ -19,5 +19,5 @@ export class CreateVideoDto {
   readonly uploader: string;
 
   @ApiProperty()
-  readonly course: string;
+  course: string;
 }
