@@ -1,17 +1,15 @@
-import { Module } from '@nestjs/common';
-import { VideoService } from './video.new-service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { VideoSchema } from './schemas/video.schema';
-import { VideoController } from './video.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Video } from './entities/video.entity';
+import {Module} from '@nestjs/common';
+import {VideoService} from './video.new-service';
+import {MongooseModule} from '@nestjs/mongoose';
+import {VideoController} from './video.controller';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {Video} from './entities/video.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Video', schema: VideoSchema }]),
-    TypeOrmModule.forFeature([Video]),
+    TypeOrmModule.forFeature([ Video ]),
   ],
-  providers: [VideoService],
-  controllers: [VideoController],
+  providers: [ VideoService ],
+  controllers: [ VideoController ],
 })
-export class VideoModule { }
+export class VideoModule {}

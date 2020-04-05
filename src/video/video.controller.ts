@@ -1,6 +1,5 @@
 import {Controller, Post, Body, Get, Param} from '@nestjs/common';
 import {VideoService} from './video.new-service';
-import {CreateVideoDto} from './interfaces/video.interface';
 import {ApiParam, ApiCreatedResponse, ApiProperty} from '@nestjs/swagger';
 import {Video} from './entities/video.entity';
 
