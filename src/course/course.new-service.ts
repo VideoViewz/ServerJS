@@ -2,8 +2,8 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Course} from "./entities/course.entity";
 import {Repository, Connection} from "typeorm";
-import {courseToUpper} from "src/helper-methods/helpers";
-import {UserCourse} from 'src/user/entities/user_course.entity';
+import {courseToUpper} from "../helper-methods/helpers";
+import {UserCourse} from '../user/entities/user_course.entity';
 
 @Injectable()
 export class CourseService
