@@ -18,7 +18,7 @@ export function analyzeURL(url: string)
     if (url.includes('/watch?v='))
     {
       const urlArr = url.split('/watch?v=');
-      newUrl = `${urlArr[ 0 ]}/embed/${urlArr[ 1 ]}`;
+      newUrl = `https://www.youtube.com/embed/${urlArr[ 1 ]}`;
     }
     else if (url.startsWith('https://youtu.be/'))
     {
@@ -28,4 +28,15 @@ export function analyzeURL(url: string)
     url = newUrl;
   }
   return url;
+}
+
+
+/**
+ * Check if the video url is from youtube
+ * @param url video url
+ */
+export function checkYoutube(url: string)
+{
+  const regex = /(http(?:s?):\/\/)?(?:www\.)?youtu(?:be\.com\/(watch\?v=|embed\/)|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+  return regex.test(url);
 }
