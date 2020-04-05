@@ -1,6 +1,7 @@
 import {Controller, Post, Body, Get} from '@nestjs/common';
 import {CourseService} from './course.new-service';
 import {Course} from './entities/course.entity';
+import {ApiCreatedResponse} from '@nestjs/swagger';
 
 @Controller('course')
 export class CourseController
@@ -14,6 +15,9 @@ export class CourseController
   }
 
   @Get()
+  @ApiCreatedResponse({
+    description: 'Video url and name array', type: [ Course ],
+  })
   async getAllCourses()
   {
     return await this.courseService.getAllCourses();
