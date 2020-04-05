@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { VideoModule } from './video/video.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { config } from 'dotenv';
-import { CourseModule } from './course/course.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import {Module} from '@nestjs/common';
+import {AppController} from './app.controller';
+import {AppService} from './app.service';
+import {VideoModule} from './video/video.module';
+import {MongooseModule} from '@nestjs/mongoose';
+import {config} from 'dotenv';
+import {CourseModule} from './course/course.module';
+import {TypeOrmModule} from '@nestjs/typeorm';
 
 config();
 
@@ -28,12 +28,12 @@ config();
       },
       url: process.env.DATABASE_URL,
       synchronize: true,
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [ 'dist/**/*.entity{.ts,.js}' ],
     }),
 
     CourseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [ AppController ],
+  providers: [ AppService ],
 })
 export class AppModule {}
