@@ -1,6 +1,6 @@
 import {Entity, PrimaryColumn, OneToMany} from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
-import {UserCourse} from 'src/user/entities/user_course.entity';
+import {UserCourse} from '../../user/entities/user_course.entity';
 
 @Entity()
 export class Course

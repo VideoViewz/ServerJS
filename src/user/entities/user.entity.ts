@@ -15,5 +15,5 @@ export class User
     name: string;
 
     @OneToMany(type => UserCourse, userCourse => userCourse.user)
-    userCourse: UserCourse[];
+    userCourse?: UserCourse[];
 }
