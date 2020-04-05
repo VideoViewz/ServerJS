@@ -1,17 +1,21 @@
 import {Entity, Column, ManyToOne, PrimaryColumn, JoinColumn} from 'typeorm';
 import {User} from './user.entity';
 import {Course} from '../../course/entities/course.entity';
+import {ApiProperty} from '@nestjs/swagger';
 
 @Entity()
 export class UserCourse
 {
 
+    @ApiProperty()
     @PrimaryColumn()
     user: string;
 
+    @ApiProperty()
     @PrimaryColumn()
     course: string;
 
+    @ApiProperty()
     @Column()
     role: string;
 
