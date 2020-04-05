@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Video} from './entities/video.entity';
 import {Repository, Connection} from 'typeorm';
-import {courseToUpper, analyzeURL} from 'src/helper-methods/helpers';
+import {courseToUpper, analyzeURL, checkYoutube} from 'src/helper-methods/helpers';
 
 @Injectable()
 export class VideoService
@@ -14,6 +14,8 @@ export class VideoService
 
     async create(video: Video)
     {
+        if (checkYoutube(video.url) === false)
+            return {error: `The link ${video.url} is not a valid youtube link`};
         video.course = courseToUpper(video.course);
         video.url = analyzeURL(video.url);
         try
