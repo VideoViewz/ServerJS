@@ -33,6 +33,6 @@ describe('UserService', () =>
             name: "Shucki",
         };
         jest.spyOn(userRepo, 'save').mockResolvedValueOnce(user);
-        expect(await service.addUser(user)).toBe(user);
+        expect(await service.createUser(user)).toBe(user);
     });
 });

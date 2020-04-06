@@ -1,6 +1,6 @@
 import {Controller, Post, Body, Get, Param} from '@nestjs/common';
 import {VideoService} from './video.new-service';
-import {ApiParam, ApiCreatedResponse, ApiProperty} from '@nestjs/swagger';
+import {ApiParam, ApiCreatedResponse, ApiProperty, ApiOperation, ApiBody} from '@nestjs/swagger';
 import {Video} from './entities/video.entity';
 
 class VideoResponse
@@ -17,6 +17,8 @@ export class VideoController
 {
   constructor (private readonly videoService: VideoService) {}
 
+  @ApiOperation({description: "Add a new video to a course"})
+  @ApiBody({description: "Add a new video to a course", type: Video})
   @Post('upload')
   async uploadVideo(@Body() video: Video)
   {
