@@ -1,31 +1,36 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { CourseService } from './course.service';
-// import { MongooseModule, getModelToken } from '@nestjs/mongoose';
-// import { Provider } from '@nestjs/common';
-// import { CourseDto } from './dto/course.dto';
+// import {Test, TestingModule} from '@nestjs/testing';
+// import {CourseService} from './course.new-service';
+// import {Provider} from '@nestjs/common';
+// import {getRepositoryToken, getConnectionToken} from '@nestjs/typeorm';
+// import {Course} from './entities/course.entity';
+// import {Repository, Connection} from 'typeorm';
+// import {UserCourse} from '../user/entities/user_course.entity';
 
-// describe('CourseService', () => {
-//   let service: CourseService;
-//   const mongooseProvider: Provider = {
-//     provide: getModelToken('Course'),
-//     useValue: this,
-//   };
+// describe('CourseService', () =>
+// {
+//     let service: CourseService;
+//     let coureseRepo: Repository<Course>;
+//     let userCourseRepo: Repository<UserCourse>;
+//     let connection: Connection;
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       providers: [CourseService, mongooseProvider],
-//     }).compile();
+//     beforeEach(async () =>
+//     {
+//         const module: TestingModule = await Test.createTestingModule({
+//             providers: [ CourseService,
+//                 {provide: getRepositoryToken(Course), useClass: Repository},
+//                 {provide: getRepositoryToken(UserCourse), useClass: Repository},
+//                 {provide: getConnectionToken(), useClass: Connection}
+//             ],
+//         }).compile();
 
-//     service = module.get<CourseService>(CourseService);
-//   });
+//         service = module.get<CourseService>(CourseService);
+//         coureseRepo = module.get<Repository<Course>>(getRepositoryToken(Course));
+//         userCourseRepo = module.get<Repository<UserCourse>>(getRepositoryToken(UserCourse));
+//         connection = module.get<Connection>(getConnectionToken());
+//     });
 
-//   it('should be defined', () => {
-//     expect(service).toBeDefined();
-//   });
-
-//   it('should upper case first letter and lower case the rest', () => {
-//     expect(service.courseToUpper({ name: 'sHUCKI' }).name).toEqual('Shucki');
-//     expect(service.courseToUpper({ name: 'math' }).name).toEqual('Math');
-//     expect(service.courseToUpper({ name: 'Math' }).name).toEqual('Math');
-//   });
+//     it('should be defined', () =>
+//     {
+//         expect(service).toBeDefined();
+//     });
 // });

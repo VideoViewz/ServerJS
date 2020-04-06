@@ -5,6 +5,7 @@ import {VideoModule} from './video/video.module';
 import {config} from 'dotenv';
 import {CourseModule} from './course/course.module';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
 
 config();
 
@@ -22,6 +23,8 @@ config();
     }),
 
     CourseModule,
+
+    UserModule,
   ],
   controllers: [ AppController ],
   providers: [ AppService ],
