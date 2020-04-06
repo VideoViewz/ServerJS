@@ -10,24 +10,39 @@ export class CourseService
 {
     constructor (@InjectRepository(Course) private courseRepository: Repository<Course>, @InjectRepository(UserCourse) private userCourseRepository: Repository<UserCourse>, private connection: Connection) {}
 
-    async create(course: Course)
+    /**
+     * Create a new course in the database
+     * @param course a course to create
+     */
+    async create(course: Course): Promise<Course>
     {
         course.name = courseToUpper(course.name);
         return await this.courseRepository.save(course);
     }
 
-    async getAllCourses()
+    /**
+     * Return a list of all courses
+     */
+    async getAllCourses(): Promise<Course[]>
     {
         return await this.courseRepository.find({});
     }
 
-    async addUserToCourse(userCourse: UserCourse) 
+    /**
+     * Add a user to a course
+     * @param userCourse
+     */
+    async addUserToCourse(userCourse: UserCourse): Promise<UserCourse>
     {
         console.log(userCourse);
         return await this.userCourseRepository.save(userCourse);
     }
 
-    async getAllUsersPerCourse(course: string) 
+    /**
+     * Return a list of users per course
+     * @param course course name
+     */
+    async getAllUsersPerCourse(course: string): Promise<UserCourse[]>
     {
         return await this.connection
             .getRepository(UserCourse)
