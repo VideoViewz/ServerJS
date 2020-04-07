@@ -45,4 +45,15 @@ export class CourseController
   {
     return await this.courseService.getAllUsersPerCourse(course);
   }
+
+  @ApiParam({name: 'User email'})
+  @ApiCreatedResponse({
+    description: 'Return an array of course names per user',
+    type: [ Course ],
+  })
+  @Get(':user')
+  async getCoursesPerUser(@Param('user') user: string)
+  {
+    return await this.courseService.getCoursesPerUser(user);
+  }
 }
