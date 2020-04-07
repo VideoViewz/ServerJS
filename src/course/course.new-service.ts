@@ -39,16 +39,17 @@ export class CourseService
     }
 
     /**
-     * Return a list of users per course
-     * @param course course name
+     * Return an array of courses per user
+     * @param user user email
      */
-    async getAllUsersPerCourse(course: string): Promise<UserCourse[]>
+    async getCoursesPerUser(user: string): Promise<Course[]>
     {
-        return await this.connection
+        const userCourses = await this.connection
             .getRepository(UserCourse)
             .createQueryBuilder('userCourse')
-            .where("userCourse.course = :course", {course: course})
+            .where("userCourse.user = :user", {user: user})
             .getMany();
-        // return userCourses.map(userCourse => {return {user: userCourse.user, role: userCourse.role};});
+
+        return userCourses.map(userCourse => {return <Course>{name: userCourse.course};});
     }
 }
