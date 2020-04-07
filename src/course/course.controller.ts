@@ -35,14 +35,14 @@ export class CourseController
     return await this.courseService.addUserToCourse(userCourse);
   }
 
-  @ApiParam({name: 'course'})
+  @ApiParam({name: 'user', description: 'user email'})
   @ApiCreatedResponse({
-    description: 'Return an array of users per course',
-    type: [ UserCourse ],
+    description: 'Return an array of course names per user',
+    type: [ Course ],
   })
-  @Get(':course/users')
-  async getAllUsersPerCourse(@Param('course') course)
+  @Get(':user')
+  async getCoursesPerUser(@Param('user') user: string)
   {
-    return await this.courseService.getAllUsersPerCourse(course);
+    return await this.courseService.getCoursesPerUser(user);
   }
 }

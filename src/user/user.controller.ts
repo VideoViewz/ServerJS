@@ -1,7 +1,8 @@
-import {Controller, Post, Body} from '@nestjs/common';
+import {Controller, Post, Body, Get, Param} from '@nestjs/common';
 import {UserService} from './user.service';
 import {User} from './entities/user.entity';
-import {ApiOperation} from '@nestjs/swagger';
+import {ApiOperation, ApiParam, ApiCreatedResponse} from '@nestjs/swagger';
+import {UserCourse} from './entities/user_course.entity';
 
 @Controller('user')
 export class UserController
@@ -13,5 +14,16 @@ export class UserController
     async createUser(@Body() user: User)
     {
         return await this.userService.createUser(user);
+    }
+
+    @ApiParam({name: 'course'})
+    @ApiCreatedResponse({
+        description: 'Return an array of users per course',
+        type: [ UserCourse ],
+    })
+    @Get(':course')
+    async getAllUsersPerCourse(@Param('course') course)
+    {
+        return await this.userService.getAllUsersPerCourse(course);
     }
 }
